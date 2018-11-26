@@ -1,0 +1,131 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+<link rel="stylesheet"
+	type="text/css" href="{% static 'blog/donors-styles.css' %}">
+	
+	{% if not user.is_staff %}
+		<div class="alert alert-danger" role="alert">
+			<h4 class="alert-heading">This page is for admin only</h4>
+			<p>Some of our donors do not want to share their information to everyone who has access to this page</p>
+			<hr>
+			<button onclick="window.history.back()" type="button" class="btn btn-outline-danger">Take me back</button>
+		</div>
+	{% else %}
+	<div id="donors-mid">
+		<style type="text/css">
+			#toggle-form{
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				vertical-align: middle;
+				font-size: 20px;
+				font-weight: bold;
+				padding-bottom: 10px;
+				border-radius: 50%;
+			}
+		</style>
+		<div id="donors-search-table">
+			<!-- Search Bar with dropdown options -->
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<button id='criterion' class="btn btn-outline-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Everything</button>
+					<div class="dropdown-menu">
+					  <div class="dropdown-item" onclick="changeFilter(0)">
+					  	Name</div>
+					  <div class="dropdown-item" onclick="changeFilter(1)">
+					  	Email</div>
+					  <div class="dropdown-item" onclick="changeFilter(2)">
+					  	Blood Group</div>
+					  <div class="dropdown-item" onclick="changeFilter(3)">
+					  	Mobile number</div>
+				  	  <div class="dropdown-item" onclick="changeFilter(4)">
+				  	  	Eligible by(days)</div>
+					  <div role="separator" class="dropdown-divider"></div>
+					  <div class="dropdown-item"  onclick="changeFilter(5)">
+					  	Everything</div>
+					</div>
+				</div>
+			  	<input id="myInput" onkeyup="myFunction()" type="text"
+			  		class="form-control" aria-label="Text input with dropdown button"
+			  		placeholder="Search">
+			</div>
+
+			<table id="myTable" class="table table-striped table-borderless">
+		      <tbody>
+		        <tr>
+		          <th scope="row">Name</th>
+		          <th scope="row">Email</th>
+		          <th scope="row">Blood Group</th>
+		          <th scope="row">Mobile number</th>
+		          <th scope="row">Last donated (Days ago)</th>
+		        </tr>
+		      	{% for donor in people %}
+		        <tr>
+		          <td>{{ donor.0.username}}</td>
+		          <td>{{ donor.0.email }}</td>
+		          <td>{{ donor.0.profile.blood_group }}</td>
+		          <td>{{ donor.0.profile.mobile_number}}</td>
+		          <td>{{ donor.1 }}</td>
+		        </tr>
+		        {% endfor %}
+		      </tbody>
+		    </table>
+		</div>
+
+		<div id="email-section">
+			{% if message %}
+			<div class="alert alert-success" role="alert">
+			 	{{ message }}
+			</div>
+			{% endif %}
+				
+			<div id="email-header">
+				<h3>Emergency Email</h3>
+				<button id="toggle-form" class="btn btn-info" type="button" onclick="showForm(this)">+</button>
+			</div>
+			<!-- <form id="email-form" method="POST">
+				<hr>
+				<div class="form-group">
+		   			 <label for="Receipients">
+				    	Filtered Recipients
+				   		<button class="btn btn-info" type="button" onclick="clearText()">Clear</button>
+				    </label>
+				    <textarea id="email-to-list" class="form-control" rows="3" placeholder="To filter recipients, search for something"></textarea>
+	  			</div>
+	  			<div class="form-group">
+		   			 <label for="Receipients">
+				    	Custom Recipients
+				    </label>
+				    <textarea id="email-to-list" class="form-control" rows="2"
+				    placeholder="Add recipients..."></textarea>
+	  			</div>
+	  			<div class="form-group">
+				    <label for="Subject">Subject</label>
+				    <input type="text" class="form-control"
+				     placeholder="Enter the subject of your mail">
+			  	</div>
+			  	<div class="form-group">
+		   			 <label for="Body">
+				    	Body:
+				    </label>
+				    <textarea id="email-body" class="form-control" rows="8" placeholder="Let them know..."></textarea>
+	  			</div>
+	  			<button type="submit" class="btn btn-primary btn-lg btn-block">Send</button>
+			</form> -->
+
+			<!-- Crispy forms -->
+			<form id="email-form" method="POST">
+				{% csrf_token %}
+				<hr>
+				{{ form|crispy }}
+				
+				<button type="submit" class="btn btn-primary btn-lg btn-block">Send</button>
+			</form>
+		</div>
+	</div>
+	{% endif %}
+	<script src="{% static 'blog/donors-script.js'%}"></script>
+
+{% endblock content %}

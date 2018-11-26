@@ -1,0 +1,20 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<style type="text/css">
+	.content-section{
+		padding: 30px;
+	}
+
+</style>
+<div class="content-section">
+	<div class="alert alert-success" role="alert">
+	  <h4 class="alert-heading">You Have Logged Out Successfully</h4>
+	  <p>“A single pint can save three lives, a single gesture can create a million smiles”</p>
+	  <hr>
+	  <small class="text-muted">
+			Login Through Another Account?<a class="ml-2" href="{% url 'login' %}">Log In</a>
+		</small>
+	</div>
+</div>
+
+{% endblock content %}

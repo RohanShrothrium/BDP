@@ -1,0 +1,12 @@
+//////////////// to do ////////////////
+1. Enroll in an event
+3. Email verification
+5. Notification by admin
+///////////// done to do /////////////
+
+
+///////////////  done  ///////////////
+last donated
+password change
+Donor database and javascipt search
+//////////////done done//////////////

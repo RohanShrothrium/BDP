@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}   
+<!--About Page-->
+<style type="text/css">
+    a:hover{
+        text-decoration: none;
+        color: blue;
+    }
+</style>
+    <div class="about-info">
+        <section class="about-things">
+            <h2>Suggestion</h2>
+                &nbsp;&nbsp;Prof. Ramchandra Phawade, prb@iitdh.ac.in
+        </section>
+        
+        <section class="about-things">
+            <h2>Motivation</h2>
+            &nbsp;&nbsp;&nbsp;&nbsp;Everyone loves the neat code in Python. We were very much interested to do a project that involved Django back-end. We came across Bootstrap to add some beautiful styles to our website.
+        </section>
+        
+        <section class="about-things">
+            <h2>Developers</h2>
+            <ul>
+                <li>Deepak H R <br>170010026@iitdh.ac.in</li>
+                <li>Rohan Shrothium <br>170020031@iitdh.ac.in</li>
+            </ul>
+        </section>
+        
+        <section class="about-things">
+            <h2>Featuring</h2>
+            <ul>            
+                <li>Styles from
+                    <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
+                </li>
+                <li>Django, tutorials by
+                    <a href="https://www.youtube.com/channel/UCCezIgC97PvUuR4_gbFUs5g" target="_blank">
+                        Corey Schafer
+                    </a>
+                </li>
+            </ul>
+        </section>
+    </div>
+{% endblock content %}

@@ -1,0 +1,67 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<style type="text/css">
+		#home-mid{
+			padding: 30px;
+			max-width: 800px;
+		}
+		.content-section {
+		  background: #ffffff;
+		  padding: 10px 20px;
+		  border: 1px solid #dddddd;
+		  border-radius: 3px;
+		  margin-bottom: 20px;
+		}
+
+		.article-title {
+		  color: #444444;
+		}
+
+		a.article-title:hover {
+		  color: #428bca;
+		  text-decoration: none;
+		}
+
+		.article-content {
+		  white-space: pre-line;
+		}
+
+		.article-img {
+		  height: 65px;
+		  width: 65px;
+		  margin-right: 16px;
+		}
+
+		.article-metadata {
+		  padding-bottom: 1px;
+		  margin-bottom: 4px;
+		  border-bottom: 1px solid #e3e3e3
+		}
+
+		.article-metadata a:hover {
+		  color: #333;
+		  text-decoration: none;
+		}
+	</style>
+	<div id="home-mid">
+		<h1>{{ object.title }}</h1>
+		<br>
+		<article class="media content-section">
+		  <div class="media-body">
+		    <div class="article-metadata">
+		      <a class="mr-2" >{{ object.author }}</a>
+		      <small class="text-muted">{{ object.date_posted }}</small>
+		    </div>
+		    <h2 class="article-title">{{ object.title }}</h2>
+		    <p class="article-content"><strong>Venue: </strong>{{ object.venue }}</p>
+		    <div class="form-group">
+		    	
+				<!-- <button class="btn btn-outline-info" type="submit" >Enroll</button> -->
+			</div>
+			<p>{{object.content}}</p>
+		  </div>
+		</article>
+		<br>
+	</div>
+{% endblock content %}

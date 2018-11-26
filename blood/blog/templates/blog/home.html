@@ -1,0 +1,97 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<style type="text/css">
+		#home-mid{
+			padding: 30px;
+			max-width: 800px;
+		}
+		.content-section {
+		  background: #ffffff;
+		  padding: 10px 20px;
+		  border: 1px solid #dddddd;
+		  border-radius: 3px;
+		  margin-bottom: 20px;
+		}
+
+		.article-title {
+		  color: #444444;
+		}
+
+		a.article-title:hover {
+		  color: #428bca;
+		  text-decoration: none;
+		}
+
+		.article-content {
+		  white-space: pre-line;
+		}
+
+		.article-img {
+		  height: 65px;
+		  width: 65px;
+		  margin-right: 16px;
+		}
+
+		.article-metadata {
+		  padding-bottom: 1px;
+		  margin-bottom: 4px;
+		  border-bottom: 1px solid #e3e3e3
+		}
+
+		.article-metadata a:hover {
+		  color: #333;
+		  text-decoration: none;
+		}
+	</style>
+	<div id="home-mid">
+		{% if isEle %}
+		<div class="alert alert-danger" role="alert">
+	  		We thank you for your recent registration for one of our blood donation camps. We advise you to wait for atleast {{ daysLeft }} days until your next donation.
+		</div>
+		{% endif %}
+		<h1>Upcoming Camps</h1>
+		<br>
+		{% for post in posts %}
+			<article class="media content-section">
+			  <div class="media-body">
+			    <div class="article-metadata">
+			      <a class="mr-2" href="#">{{ post.author }}</a>
+			      <small class="text-muted">{{ post.date_posted }}</small>
+			    </div>
+			    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+			    <p class="article-content"><strong>Venue: </strong>{{ post.venue }}</p>
+			    <div class="form-group">
+			    	<form method="POST">
+						{% csrf_token %}
+						<fieldset class="form-group" style="display:none;">
+							<legend class="border-bottom mb-4">Enroll</legend>
+							{{ form|crispy }}
+							<span>{{ post.id }}</span>
+						</fieldset>
+						{% if isELe %}
+						<div class="form-group">
+							<button class="btn btn-outline-info" type="submit">Enroll</button>
+						</div>
+						{% endif %}
+					</form>
+				</div>
+			  </div>
+			</article>
+			<br>
+		{% endfor %}
+		<h1>{{ temp }}</h1>
+	</div>
+	<script type="text/javascript">
+		var events = document.querySelectorAll("fieldset.form-group");
+		for(var i=0; i<events.length; i++){
+			event = events[i];
+			var id = event.children[2].children[1].children[0];
+			var postId = event.children[3].innerHTML;
+			id.value = Number(postId);
+			users = document.querySelectorAll('#id_user')
+			for( var j=0; j<users.length; j++)
+				users[j].value = Number("{{ user.id }}");
+		}
+	</script>
+{% endblock content %}

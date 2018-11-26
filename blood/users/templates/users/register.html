@@ -1,0 +1,51 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+		<style type="text/css">
+
+			.emailFlag{
+				color: red;
+			}
+			.content-section{
+				padding: 30px;
+				margin: 30px;
+				max-width: 1500px;			
+			}
+			#register-mid{
+				width: 100%;
+				display: flex;
+				justify-content: flex-start;
+			}
+		</style>
+		<div id="register-mid">
+			<div class="content-section">
+				<form id="register-form" method="POST">
+					{% csrf_token %}
+					<h3 class="mb-4">Sign Up</h3>
+					<fieldset id="register-form" class="form-group">
+						{{ form|crispy }}
+					</fieldset>
+					<div class="form-group">
+						<button class="btn btn-outline-info" type="submit">Sign Up</button>
+					</div>
+				</form>
+				<div class="border-top pt-3">
+					<small class="text-muted">
+						Already Have An Account?<a class="ml-2" href="{% url 'login' %}">Log In</a>
+					</small>
+				</div>
+			</div>
+		</div>
+		{% if emailFlag %}
+		<script type="text/javascript">
+			div = document.getElementById('id_email').parentElement;
+			small = document.createElement("small");
+			li = document.createElement("li");
+			small.className = "emailFlag";
+			text = document.createTextNode("This email is already exists.");
+			li.appendChild(text);
+			small.appendChild(li);
+			div.appendChild(small);
+		</script>
+		{% endif %}
+{% endblock content %} 

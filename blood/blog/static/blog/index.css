@@ -1,0 +1,231 @@
+#total{
+    /* My mind */
+    background: linear-gradient(141deg, red 0%, rgb(153, 51, 255) 60%, rgb(0, 128, 192) 75%);
+    /* https://uigradients.com/#Influenza */
+    background: #C04848;
+    background: -webkit-linear-gradient(to top, #480048, #C04848);
+    background: linear-gradient(51deg, #480048, #C04848);
+}
+#total{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+#trans{
+    background: transparent;
+}
+.jumbotron {
+    background: transparent;
+    padding: 2em;
+
+    color: white;
+    margin-bottom: 0px;
+    border-radius: 0;
+}
+.foot {
+    margin-top: 0px;
+    background: #661248;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 18px;
+    padding: 30px;
+
+}
+.foot p{
+    font-size: 1.3em;
+}
+#logo {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    height: 150px;
+    border-radius: 5px;
+}
+
+a#admin-link {
+    padding: 5px;
+    font-size: 15px;
+    align-self: flex-end;
+    color: white;
+    border: 2px solid red;
+    border-radius: 10px;
+}
+a#admin-link:hover{
+    border: 2px solid white;
+}
+
+.loginBox{
+    background: #0f0c29;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(45deg, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(45deg, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+    width: 400px;
+	padding: 40px;
+	color: white;
+	font-family: Roboto;
+    margin: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+
+
+div.header{
+	font-size: 33px;
+	color: #d21e2b;
+	font-weight: bold;
+    margin-bottom: 25px;
+}
+
+input.login-inp{
+    background: transparent;
+	border: none;
+	margin-bottom: 20px;
+    width: 100%;
+	padding: 0px; 
+	height: 40px;
+	font-size: 16px;
+	border-bottom: 1px solid #d21e2b;
+	outline: none;
+	caret-color:#d21e2b;
+	color: #d21e2b;
+	width: 100%;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    background: rgba(255,255,255,0.05); 
+}
+
+input[type="checkbox"]{
+    margin: 0px -120px 0px -130px;
+    height: 20px;
+}
+
+#mid-section button{
+/*
+	border: none;
+	padding: 10px 15px;
+	border-radius: 20px;
+	font-size: 18px;
+	font-family: Roboto;
+	color: white;
+	background-color: #d21e2b;
+	border: 2px solid #d21e2b;
+	outline: none;
+*/
+}
+
+#mid-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 30px;
+    width: 100%;
+    flex-wrap: wrap-reverse;
+}
+
+#carouselExampleIndicators {
+    box-shadow: 10px 10px 50px grey;
+    margin: 50px 0;
+    transform: scale(1.2);
+}
+
+#wama {
+    color: #d21e2b;
+    height: 60px;
+    width: 60px;
+    border-radius: 0;
+    transform: scale(0.5);
+    margin:0 0 0 -10px;
+}
+
+.temp {
+    padding: 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+}
+
+label{
+	font-weight: bold;
+	font-size: 20px;
+}
+.my-4 {
+    border: none;
+    border-top: 1px solid white;
+}
+
+#login-submit {
+    width: 100%;
+    border-radius: 0;
+}
+#login-submit:hover{
+    opacity: 0.8;
+}
+
+
+.foot button{   
+    align-self: flex-end;
+    font-size: 1em;
+    min-height: 40px;
+    max-width: 900px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-brand{
+    font-weight: 500;
+}
+.navbar-dark .navbar-nav .nav-link{
+    font-size: 1.3em;
+}
+
+nav{
+    width: 100%;
+    margin-bottom: 0;
+}
+
+
+/*these are for about.html*/
+.ident {
+    position: relative;
+    left: 3em;
+}
+
+.about-info {
+    margin: 0;
+    font-size: 1.3em;
+    padding: 0;
+}
+
+.about-things {
+    padding: 2em;
+    margin:0;
+    transition: all 0.6s ease-in-out;
+}
+.about-things:hover{
+    background-color: lightgrey;
+}
+
+
+.adminLogin {
+    background: #41295a;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(45deg, #2F0743, #41295a);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(45deg, #2F0743, #41295a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+/*these are for login.html*/
+
+.list-group {
+    position: sticky;
+    top: 5%;
+}
+
+#container {
+    padding: 10px;
+}
+

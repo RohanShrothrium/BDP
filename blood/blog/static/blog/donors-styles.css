@@ -1,0 +1,65 @@
+#donors-mid{
+	display: flex;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	min-height: 1000px;
+}
+#email-header{
+	display: flex;
+	justify-content: space-between;
+}
+#donors-search-table{
+	width: 800px;
+	min-height: 500px;
+	padding: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.table th{
+	height: 100%;
+	vertical-align: middle;
+}
+#myInput{
+	background-image: url('magnifier.png');
+	background-position: right;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+#criterion{
+	width: 159px;
+}
+.alert-danger{
+	margin: 30px;
+	min-height: 180px;
+}
+#email-section{
+	margin: 30px;
+	width: 600px;
+	
+}
+form#email-form{
+	display: none;
+	position: relative;
+	animation-fill-mode: forwards;
+}
+label.col-form-label{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: baseline;
+}
+@keyframes rf{
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(225deg);}
+}
+
+@keyframes rb{
+	0% {transform: rotate(225deg);}
+	100% {transform: rotate(0deg);}
+}
+
+@keyframes appear{
+	0%	{left: 400px;opacity: 0;}
+	100%{left: 0px; opacity: 1;}
+}
