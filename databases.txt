@@ -1,0 +1,32 @@
+DATABASES
+
+User Database:
+	Contains the fields:
+		User Name (UNIQUE)
+		Email ID (UNIQUE)
+
+User Profile Database:
+	Has a one to one relation with a user
+	Contains the following fields:
+		User (The user to which belongs to)
+		Last Donated Date
+		Mobile Number
+		Weight
+		Blood group
+		Date of Birth 
+		Gender
+
+Posts Database:
+	Is the posts about the upcoming blood donation camps
+	Contains the following fields:
+		has a Foriegn Key field which is the user (The user who posted it)
+		Event Date
+		Event Content
+		Date Posted
+		Venue of the camp
+
+Enrolleds Database:
+	Is a bridging able between the events and people enrlled
+	Contains the following fields:
+		Event ID
+		User ID (who is enrolled to the event)
