@@ -1,0 +1,1 @@
+- We plan to add a web scraper that will notify the admin about blood donation events all around the world. 
