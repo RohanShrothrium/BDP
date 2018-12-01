@@ -1,1 +1,1 @@
-- We plan to add a web scraper that will notify the admin about blood donation events all around the world. 
+- We plan to add a web scraper that will notify the admin(s) about blood donation events all around the world. 
