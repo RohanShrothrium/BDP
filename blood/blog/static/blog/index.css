@@ -229,3 +229,6 @@ nav{
     padding: 10px;
 }
 
+#eventFilter{
+    border-radius: 0 .25rem .25rem 0;
+}

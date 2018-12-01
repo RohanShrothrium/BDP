@@ -32,26 +32,45 @@
 				<div class="input-group-prepend">
 					<button id='criterion' class="btn btn-outline-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Everything</button>
 					<div class="dropdown-menu">
-					  <div class="dropdown-item" onclick="changeFilter(0)">
+					  <div class="dropdown-item" onclick="changeFilter(0, -1)">
 					  	Name</div>
-					  <div class="dropdown-item" onclick="changeFilter(1)">
+					  <div class="dropdown-item" onclick="changeFilter(1, -1)">
 					  	Email</div>
-					  <div class="dropdown-item" onclick="changeFilter(2)">
+					  <div class="dropdown-item" onclick="changeFilter(2, -1)">
 					  	Blood Group</div>
-					  <div class="dropdown-item" onclick="changeFilter(3)">
+					  <div class="dropdown-item" onclick="changeFilter(3, -1)">
 					  	Mobile number</div>
-				  	  <div class="dropdown-item" onclick="changeFilter(4)">
+				  	  <div class="dropdown-item" onclick="changeFilter(4, -1)">
 				  	  	Eligible by(days)</div>
 					  <div role="separator" class="dropdown-divider"></div>
-					  <div class="dropdown-item"  onclick="changeFilter(5)">
+					  <div class="dropdown-item"  onclick="changeFilter(5, -1)">
 					  	Everything</div>
 					</div>
 				</div>
 			  	<input id="myInput" onkeyup="myFunction()" type="text"
 			  		class="form-control" aria-label="Text input with dropdown button"
 			  		placeholder="Search">
-			</div>
 
+			  	<div class="dropdown">
+				  <button id="eventFilter" class="btn btn-outline-info dropdown-toggle"
+				   type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    Filter by event
+				  </button>
+				  <span id="eventId" style="display: none;">0</span>
+				  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				  	<div class="dropdown-item" href="#" onclick="changeFilter(-1,0)">
+				  		Clear event filter
+				  	</div>
+				  	<div role="separator" class="dropdown-divider"></div>
+				  	{% for post in posts %}
+				    <div class="dropdown-item" href="#" onclick="changeFilter(-1, {{ post.id }} )">
+				    	{{post.title}}
+				    </div>
+				    {% endfor %}
+				  </div>
+				</div>
+			</div>
+			
 			<table id="myTable" class="table table-striped table-borderless">
 		      <tbody>
 		        <tr>
@@ -60,6 +79,7 @@
 		          <th scope="row">Blood Group</th>
 		          <th scope="row">Mobile number</th>
 		          <th scope="row">Last donated (Days ago)</th>
+		          <th scope="row">Current Event</th>
 		        </tr>
 		      	{% for donor in people %}
 		        <tr>
@@ -68,6 +88,7 @@
 		          <td>{{ donor.0.profile.blood_group }}</td>
 		          <td>{{ donor.0.profile.mobile_number}}</td>
 		          <td>{{ donor.1 }}</td>
+		          <td>{{ donor.0.profile.current_event_id }}</td>
 		        </tr>
 		        {% endfor %}
 		      </tbody>

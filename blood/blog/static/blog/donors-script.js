@@ -4,7 +4,8 @@ var criterion_map = {
 		"Blood Group": 2,
 		"Mobile number": 3,
 		"Eligible by(days)": 4,
-		"Everything": 5
+		"event": 5,
+		"Everything": 6,
 	};
 
 var column_names=[
@@ -13,7 +14,8 @@ var column_names=[
 	"Blood Group",
 	"Mobile number",
 	"Eligible by(days)",
-	"Everything"
+	"event",
+	"Everything",
 ];
 
 function editTable(){
@@ -81,8 +83,16 @@ function showForm(button){
 }
 
 
-function changeFilter(index) {
-	document.getElementById("criterion").innerHTML = column_names[index];
+function changeFilter(index, eventId) {
+	if(index != -1){
+		document.getElementById("criterion").innerHTML = column_names[index];
+	}
+	if(eventId!=-1){
+		document.getElementById("eventId").innerHTML = eventId;
+	}
+	if(index == -1){
+		myFunction();
+	}
 }
 
 function myFunction() {
@@ -92,6 +102,7 @@ function myFunction() {
 	var table = document.getElementById("myTable");
 	var tr = table.getElementsByTagName("tr");
 	var criterion = document.getElementById("criterion").innerHTML;
+	var eventId = document.getElementById("eventId");
 
 	// Loop through all table rows, and hide those who don't match the search query
 	for (var i = 1; i < tr.length; i++) {
@@ -100,7 +111,7 @@ function myFunction() {
 		var j = criterion_map[criterion];
 		if(criterion ==="Everything"){
 			//enable display if atleast one of the fields match the query
-		    for(var j =0; j<td.length-1; j++){
+		    for(var j =0; j<td.length-2; j++){
 		    	if(td[j])
 		    		if(td[j].innerHTML.toUpperCase().indexOf(filter)>-1)
 		    			tr[i].style.display = "";
@@ -117,9 +128,13 @@ function myFunction() {
 				if(td[j].innerHTML.toUpperCase().indexOf(filter)>-1)
 					tr[i].style.display = "";
 		}
-		if(filter=="")
+
+		if(td[td.length-1].innerHTML != eventId.innerHTML){
+			tr[i].style.display = "none";
+		}
+		if(filter=="" && eventId.innerHTML==0 )
 			tr[i].style.display = "";
 	}	
-	//after the fiter call form, but tell it not to change the state of the 
+
 	editTable();
 }

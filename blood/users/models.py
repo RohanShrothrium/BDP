@@ -27,6 +27,7 @@ class Profile(models.Model):
 	date_of_birth = models.DateField(default = timezone.now)
 	gender = models.CharField(max_length = 10, default = Male, choices = gender_choice)
 	is_registered = models.BooleanField(default = False)
+	current_event_id = models.IntegerField(default = 0)
 
 
 	def __str__(self):

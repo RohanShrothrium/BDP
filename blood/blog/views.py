@@ -11,6 +11,9 @@ from django.utils import timezone
 from datetime import *
 from django.core.mail import send_mail
 from django.conf import settings
+def cleanUser(user):
+	if user.profile.current_event_id>0 and Eli(user)>0:
+		user.profile.current_event_id = 0
 
 def home(request):
 	if request.user.is_authenticated:
@@ -23,8 +26,10 @@ def home(request):
 				post = Post.objects.get(id = form.instance.event)
 				temp = post.event_date.date()
 				request.user.profile.last_donated = temp
+				request.user.profile.current_event_id = form.instance.event
 				request.user.profile.save()
 				form.save()
+				return redirect('blog-home')
 		else:		
 			# we come here first and.....
 			form = EnrollForm()
@@ -37,7 +42,7 @@ def home(request):
 			'form': form,
 			'isEle': isEle>=112,
 			'daysLeft': 112-isEle
-		}
+		}	
 		return render(request, 'blog/home.html', context)
 	else:
 		context = { 
@@ -70,6 +75,9 @@ def Eli(x):
 	return (datetime.now().date() - x.profile.last_donated).days
 
 def donors(request):
+	users = User.objects.all()
+	for user in users:
+		cleanUser(user)
 	form = EmergencyEmailForm()
 	if request.method == 'POST':
 		form = EmergencyEmailForm(request.POST)
@@ -87,10 +95,12 @@ def donors(request):
 		success_mssg = ""
 	people = User.objects.all()
 	people = list(map(lambda x:[x,Eli(x)], people))
+	posts = Post.objects.all().order_by("-event_date")[:3]
 	context = {
 		'people' : people,
 		'form' : form,
-		'message' : success_mssg
+		'message' : success_mssg,
+		'posts' : posts,
 	}
 	return render(request, 'blog/donors.html', context)
 
