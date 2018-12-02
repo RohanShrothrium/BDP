@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from .models import Post, Enrolled
 from users.models import *
 from .forms import *
+from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView
 # Create your views here.
 from django.contrib.auth.models import User
@@ -11,6 +12,9 @@ from django.utils import timezone
 from datetime import *
 from django.core.mail import send_mail
 from django.conf import settings
+def cleanUser(user):
+	if user.profile.current_event_id>0 and Eli(user)>0:
+		user.profile.current_event_id = 0
 
 def home(request):
 	if request.user.is_authenticated:
@@ -23,8 +27,10 @@ def home(request):
 				post = Post.objects.get(id = form.instance.event)
 				temp = post.event_date.date()
 				request.user.profile.last_donated = temp
+				request.user.profile.current_event_id = form.instance.event
 				request.user.profile.save()
 				form.save()
+				return redirect('blog-home')
 		else:		
 			# we come here first and.....
 			form = EnrollForm()
@@ -32,16 +38,16 @@ def home(request):
 
 
 		context = {
-			'posts': Post.objects.all().order_by("-date_posted"),
+			'posts': Post.objects.all().order_by("-date_posted").filter(Q(event_date__gte=datetime.now().date())|Q(event_date=None)),
 			'isHome': True,
 			'form': form,
 			'isEle': isEle>=112,
 			'daysLeft': 112-isEle
-		}
+		}	
 		return render(request, 'blog/home.html', context)
 	else:
 		context = { 
-			'posts': Post.objects.all().order_by("-date_posted"),
+			'posts': Post.objects.all().order_by("-date_posted").filter(Q(event_date__gte=datetime.now().date())|Q(event_date=None)),
 		}
 		return render(request, 'blog/home.html', context)
 
@@ -70,6 +76,9 @@ def Eli(x):
 	return (datetime.now().date() - x.profile.last_donated).days
 
 def donors(request):
+	users = User.objects.all()
+	for user in users:
+		cleanUser(user)
 	form = EmergencyEmailForm()
 	if request.method == 'POST':
 		form = EmergencyEmailForm(request.POST)
@@ -82,15 +91,19 @@ def donors(request):
 			all_recipients = filtered_recipients + custom_recipients
 			to_list = all_recipients.split(",")
 			send_mail(subject, body, from_email, to_list, fail_silently=False)
-			success_mssg = "Your email has been sent successfully XD"
+			success_mssg = "Your email has been sent successfully"
 	else:
 		success_mssg = ""
 	people = User.objects.all()
 	people = list(map(lambda x:[x,Eli(x)], people))
+	posts = Post.objects.all().filter(Q(event_date__gte=datetime.now().date())|Q(event_date=None))
+	n = min(5, len(posts))
+	posts = posts.order_by("-event_date")[:n]
 	context = {
 		'people' : people,
 		'form' : form,
-		'message' : success_mssg
+		'message' : success_mssg,
+		'posts' : posts,
 	}
 	return render(request, 'blog/donors.html', context)
 

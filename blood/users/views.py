@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django import forms
 from django.contrib.auth.models import User
@@ -11,9 +12,18 @@ import functools as ft
 # these were added for email-verification
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+from django.core.mail import EmailMessage
+
 
 # Create your views here.
 def register(request):
+	if request.user.is_authenticated:
+		return redirect('blog-home')
 	emailFlag = False
 	count = 0
 	tempUser = ''
@@ -25,27 +35,22 @@ def register(request):
 			if count > 0:
 				emailFlag = True
 			else:
-				form.save()
+				user = form.save(commit=False)
+				user.is_active = False
+				user.save()
+				current_site = get_current_site(request)
 				username = form.cleaned_data.get('username')
-
+				print("before sending")
 				#this is for sending email
-				sentences=[
-					"Dear ", str(username), 
-					",\n\tWelcome to IIT Dharwad's Blood Donation Portal. ",
-				    "We really appreciate your initiative to donate blood. ",
-				    "We look forward to see you take part in our blood donation camps."
-				    "\n\nYours faithfully",
-				    "\nIITDh BDP Team\n"
-				]
-				subject = "Thank you for signing up at the Blood Donation Portal"
-				ddklal = ft.reduce(lambda x,y: x+y, sentences)
-				from_email = settings.EMAIL_HOST_USER
-				to_list = [form.cleaned_data.get('email')]
-				send_mail(subject, ddklal, from_email, to_list, fail_silently=False)
-				#email is sent
-
-				messages.success(request, f'Account created for {username}!')
-				return redirect('login')
+				mail_subject = "Activate your BDP account"
+				uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
+				token = account_activation_token.make_token(user)
+				message = render_to_string('users/acc_active_email.html', {'user': user,'domain': current_site.domain,'uid':uid,'token': token, })
+				to_email = form.cleaned_data.get('email')
+				email = EmailMessage(mail_subject, message, to=[to_email])
+				email.send()
+				print("after sending")
+				return HttpResponse('Please confirm your email address to complete the registration')
 	form = UserRegisterForm()
 	context = {
 		'count': count,
@@ -53,6 +58,22 @@ def register(request):
 		'form': form,
 	}
 	return render(request, 'users/register.html',context)
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        # return redirect('home')
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
+
 
 @login_required
 def profile(request):

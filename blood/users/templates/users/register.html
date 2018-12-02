@@ -2,6 +2,9 @@
 {% load crispy_forms_tags %}
 {% block content %}
 		<style type="text/css">
+			.iitdh{
+				color: grey;
+			}
 
 			.emailFlag{
 				color: red;
@@ -17,12 +20,33 @@
 				justify-content: flex-start;
 			}
 		</style>
+
+		<script type="text/javascript">
+
+			function validate(){
+				email = document.getElementById('id_email');
+				flag = true;
+				l = email.value.length;
+				if(l < 12){
+					flag = false;
+				}
+				else if(email.value.substring(l-11, l) != 'iitdh.ac.in'){
+					flag = false;
+				}
+				if(flag == false){
+					alert("We permit only use of IIT Dharwad accounts, *@iitdh.ac.in");
+					return false;
+				}
+				return true;
+			}
+
+		</script>
 		<div id="register-mid">
 			<div class="content-section">
-				<form id="register-form" method="POST">
+				<form id="register-form" method="POST" onsubmit="validate()">
 					{% csrf_token %}
 					<h3 class="mb-4">Sign Up</h3>
-					<fieldset id="register-form" class="form-group">
+					<fieldset class="form-group">
 						{{ form|crispy }}
 					</fieldset>
 					<div class="form-group">
@@ -36,6 +60,16 @@
 				</div>
 			</div>
 		</div>
+		<script type="text/javascript">
+			div = document.getElementById('id_email').parentElement;
+			small = document.createElement("small");
+			li = document.createElement("li");
+			small.className = "iitdh";
+			text = document.createTextNode("IIT Dharwad accounts only, *@iitdh.ac.in");
+			li.appendChild(text);
+			small.appendChild(li);
+			div.appendChild(small);
+		</script>
 		{% if emailFlag %}
 		<script type="text/javascript">
 			div = document.getElementById('id_email').parentElement;

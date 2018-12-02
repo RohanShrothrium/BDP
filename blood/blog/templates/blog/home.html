@@ -45,9 +45,19 @@
 		}
 	</style>
 	<div id="home-mid">
-		{% if isEle %}
+		{% if user.is_authenticated and user.profile.is_registered and not isEle and not user.is_staff %}
 		<div class="alert alert-danger" role="alert">
 	  		We thank you for your recent registration for one of our blood donation camps. We advise you to wait for atleast {{ daysLeft }} days until your next donation.
+		</div>
+		{% endif %}
+		{% if user.is_authenticated and not user.profile.is_registered %}
+		<div class="alert alert-info">
+			Please update your profile by clicking on the tab having your username
+		</div>
+		{% endif %}
+		{% if user.is_staff %}
+		<div class="alert alert-info" role="alert">
+	  		Welcome admin, {{ user.username }}
 		</div>
 		{% endif %}
 		<h1>Upcoming Camps</h1>
@@ -56,20 +66,21 @@
 			<article class="media content-section">
 			  <div class="media-body">
 			    <div class="article-metadata">
-			      <a class="mr-2" href="#">{{ post.author }}</a>
-			      <small class="text-muted">{{ post.date_posted }}</small>
+					<small class="mr-1">Date and time:</small>
+			      	<small class="text-muted">{{ post.date_posted }}</small>
 			    </div>
 			    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
 			    <p class="article-content"><strong>Venue: </strong>{{ post.venue }}</p>
+			    <p class="article-content"><strong>Date: </strong>{{ post.event_date }}</p>
 			    <div class="form-group">
-			    	<form method="POST">
+			    	<form method="POST" onsubmit="return confirm('Are you sure you want to enroll?');">
 						{% csrf_token %}
 						<fieldset class="form-group" style="display:none;">
 							<legend class="border-bottom mb-4">Enroll</legend>
 							{{ form|crispy }}
 							<span>{{ post.id }}</span>
 						</fieldset>
-						{% if isELe %}
+						{% if isEle %}
 						<div class="form-group">
 							<button class="btn btn-outline-info" type="submit">Enroll</button>
 						</div>
